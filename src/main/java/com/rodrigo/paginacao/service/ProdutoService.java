@@ -7,9 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.List;
-
 @Service
 @AllArgsConstructor
 public class ProdutoService {
@@ -20,8 +17,8 @@ public class ProdutoService {
         repository.save(produto);
     }
 
-    public List<Produto> findAll() {
-        return repository.findAll();
+    public Page<Produto> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     public Page<Produto> findAllPage(Pageable pageable) {

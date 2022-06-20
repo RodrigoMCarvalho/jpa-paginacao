@@ -4,7 +4,9 @@ import com.rodrigo.paginacao.model.Produto;
 import com.rodrigo.paginacao.service.ProdutoService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,9 +26,21 @@ public class ProdutoController {
     }
 
     //http://localhost:8080/v1/produtos?page=0&size=10&sort=quantidadeEstoque
+    //http://localhost:8080/v1/produtos?page=0&size=10&sort=quantidadeEstoque,DESC
     @GetMapping
     public ResponseEntity<Page<Produto>> findAllPage(Pageable pageable) {
         return Optional.ofNullable(service.findAllPage(pageable))
+                .map(p -> ResponseEntity.ok().body(p))
+                .orElse(ResponseEntity.noContent().build());
+
+    }
+
+    //http://localhost:8080/v1/produtos/default
+    //Também é possível fazer pelo application.properties
+    @GetMapping("/default")
+    public ResponseEntity<Page<Produto>> findAllPageDefault() {
+
+        return Optional.ofNullable(service.findAll(PageRequest.of(0,5, Sort.Direction.DESC	, "preco")))
                 .map(p -> ResponseEntity.ok().body(p))
                 .orElse(ResponseEntity.noContent().build());
 
