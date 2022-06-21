@@ -22,7 +22,7 @@ public class ProdutoService {
     }
 
     public Page<Produto> findAllPage(Pageable pageable) {
-        return repository.findAll(pageable);
+        return this.findAll(pageable);
     }
 
     public Page<Produto> findByTipo(String tipo, Pageable pageable) {
